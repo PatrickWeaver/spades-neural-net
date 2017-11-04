@@ -1,7 +1,10 @@
+# Based on:
+# https://github.com/makeyourownneuralnetwork/makeyourownneuralnetwork
+
 import numpy
 import scipy.special
 
-class neuralNetwork
+class neuralNetwork:
 
     def __init__(self, input_nodes, hidden_nodes, output_nodes, learning_rate):
         # set number of nodes in each input, hidden, output layer
@@ -29,7 +32,36 @@ class neuralNetwork
 
         pass
 
-    def train():
+    def train(self, inputs_list, targets_list):
+        # Convert inputs list to 2D array:
+        inputs = numpy.array(inputs_list, ndmin=2).T
+        targets = numpy.array(targets_list, ndmin=2).T
+
+        # Calculate signals into hidden layer
+        hidden_inputs = numpy.dot(self.weight_input_hidden, inputs)
+        # Calculate the signals emerging from hidden layer
+        hidden_outputs = slef.activation_function(hidden_inputs)
+
+        #calculate signals into final output layer
+        final_inputs = numpy.dot(self.weight_hidden_output, hidden_outputs)
+        #calculate the signals emerging from final output layer
+        final_outputs = self.activation_function(final_inputs)
+
+        targets = numpy.array(targets_list, ndmin=2).T
+
+        # Error is (target - actual)
+        output_errors = targets - final_outputs
+
+        # Hidden layer error is the outout_errors, split by weights, recombined at hidden nodes
+        hidden_erros = numpy.dot(self.weight_hidden_output.T, output_errors)
+
+        # Update the weights for the links between the hidden and output layers
+        self.weight_hidden_output += self.learning_rate * numpy.dot((output_errors * final_outputs * (1.0 - final_outputs)), numpy.transpose(hiden_outputs))
+
+        # Update the weights for the links between the input and hidden layers
+        self.weight_input_hidden += self.learning_rate * numpy.dot((hidden_errors * hidden_outputs * (1.0 - hidden_outputs)), numpy.transpose(inputs))
+
+
         pass
 
     def query(self, inputs_list):
@@ -45,11 +77,8 @@ class neuralNetwork
         # calculate the signals emerging from the hidden layer
         hidden_outputs = self.activation_function(hidden_inputs)
 
-        #calculate the signals emerging from hidden layer
-        hidden_outputs = self.activation_function(hidden_inputs)
         #calculate signals into final output layer
         final_inputs = numpy.dot(self.weight_hidden_output, hidden_outputs)
-
         #calculate the signals emerging from final output layer
         final_outputs = self.activation_function(final_inputs)
 
@@ -62,3 +91,7 @@ output_nodes = 3
 learning_rate = 0.3
 
 n = neuralNetwork(input_nodes, hidden_nodes, output_nodes, learning_rate)
+
+a = n.query([1.0, 0.5, -1.5])
+
+print(a)
