@@ -93,12 +93,14 @@ learning_rate = 0.3
 
 n = neuralNetwork(input_nodes, hidden_nodes, output_nodes, learning_rate)
 
+
+print(n)
 #a = n.query([1.0, 0.5, -1.5])
 
 
 
 # Get the data from the csv:
-data_file = open("spades-bids.csv", "r")
+data_file = open("spades-bids-train-cleaned.csv", "r")
 data_list = data_file.readlines()
 data_file.close()
 
@@ -115,7 +117,7 @@ for bid in data_list:
         #print(i)
         #print(i < 7)
         #print("\n")
-        if scoreChange > 7 and bagsChange < 3:
+        if scoreChange > 0 and bagsChange < 5:
             good_data_list.append(bid_list)
 print("LENGTH AFTER:")
 print(len(good_data_list))
@@ -158,7 +160,7 @@ test_data_file.close()
 
 #for test_data in test_data_list:
 
-all_values = test_data_list[10].split(",")
+all_values = test_data_list[12].split(",")
 print("DIAMONDS")
 print(all_values[1:14])
 print("CLUBS")
